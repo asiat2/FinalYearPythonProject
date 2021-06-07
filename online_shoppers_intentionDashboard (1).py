@@ -23,15 +23,12 @@ Month = df['Month'].unique()
 
 ##########Plots to Display ########
 ### UniVarient Plot###    
-figM = px.histogram(df, x="Month", color="Month",height=370).update_xaxes(categoryorder="total descending")
-figV = px.histogram(df, x="VisitorType", color="VisitorType",height=370)
-figW = px.histogram(df, x="Weekend",color="Weekend",height=370)
-figB = px.histogram(df, x="Browser",color="Browser",height=370)
-figRe = px.histogram(df, x="Region",color="Region",height=370)
-figT = px.histogram(df, x="TrafficType",color="TrafficType",height=370)
-
-
-
+figM = px.histogram(df, x="Month", color="Month",height=370,title="User Count By Month").update_xaxes(categoryorder="total descending")
+figV = px.histogram(df, x="VisitorType", color="VisitorType",height=370,title="User Count By Visisttype")
+figW = px.histogram(df, x="Weekend",color="Weekend",height=370,title="User Count By Weekend")
+figB = px.histogram(df, x="Browser",color="Browser",height=370,title="User Count By Browser")
+figRe = px.histogram(df, x="Region",color="Region",height=370,title="User Count By Region")
+figT = px.histogram(df, x="TrafficType",color="TrafficType",height=370,title="User Count By TrafficType")
 
 ### BiVarient Plot###
 groupped = df.groupby(by='TrafficType',as_index=False).sum()
@@ -44,11 +41,8 @@ figMo.update_layout(barmode='stack', xaxis={'categoryorder':'total descending'})
 groupped2 = df.groupby(by='OperatingSystems',as_index=False).sum()
 figVi = px.bar(groupped2,x='OperatingSystems' ,y='Average_D',orientation='v',color='OperatingSystems',title="Average time spent on each session by OperatingSystems",height=370)
 
-
 groupped = df.groupby(by='Region',as_index=False).sum()
 figR = px.bar(groupped,x='Region' ,y='Average_user_visit',orientation='v',color='Region',title="Average_user_visit by Region",height=370)
-
-
 
 ### MultiVarient Plot###
 BoEx = px.scatter(df,x= 'BounceRates',y='ExitRates',orientation ='v',color='Revenue', title="BounceRate vs ExitRates with Revenue",height=370)
@@ -69,7 +63,7 @@ app.layout = html.Div([
                 dbc.Col(
             html.H1(
             id="title",
-            children="Online Shopping Intention Analysis"
+            children="Online Shoppers Intention Analysis"
 
                 ), width={"size": 8, "offset": 4}
             )
@@ -108,7 +102,7 @@ app.layout = html.Div([
 
         ]),
 
-        dcc.Tab(id = 'tab2',label='BiVariate Analysis', children=[
+        dcc.Tab(id = 'tab2',label='Bivariate Analysis', children=[
              dbc.Row([
                dbc.Col( [
                       html.H4(id ="rev", children="Revenue"),
@@ -152,7 +146,7 @@ app.layout = html.Div([
                ),
            ]),        
         ]),
-        dcc.Tab(id = 'tab3',label='MultiVariate Analysis', children=[
+        dcc.Tab(id = 'tab3',label='Multivariate Analysis', children=[
              dbc.Row([
                dbc.Col( [
                       html.H4(id ="wek1", children="Weekend"),
@@ -257,7 +251,6 @@ def update_graphs1(Weekend,Month):
     Av_D= px.scatter(temp_df,x='Average_D',y='Average_user_visit',orientation ='v',color='Revenue', title="Average user visit vs Average Duration and Revenue",height=370)
 
     return[BoEx,BoAv,PdPv,Av_D]
-
 
 if __name__ == '__main__':
     app.run_server(debug=False)
